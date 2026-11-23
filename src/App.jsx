@@ -3,6 +3,7 @@ import axios from "axios";
 import { ResultsView } from "./ResultsView.jsx";
 
 const MAX_FILE_MB = 10;
+const API_URL = (import.meta.env.VITE_API_URL || "http://localhost:8000").replace(/\/+$/, "");
 
 export default function App() {
   const [file, setFile] = useState(null);
@@ -44,9 +45,7 @@ export default function App() {
       const formData = new FormData();
       formData.append("file", file);
 
-      const response = await axios.post("http://localhost:8000/analyze", formData, {
-        headers: { "Content-Type": "multipart/form-data" },
-      });
+      const response = await axios.post(`${API_URL}/analyze`, formData);
       setResult(response.data);
     } catch (err) {
       const message =
